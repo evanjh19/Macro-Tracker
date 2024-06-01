@@ -183,7 +183,7 @@ while running != 'yes':
                 with open(weight, 'r') as wtr:
                     for line in wtr:
                         split_line = line.split()
-                        weight = split_line[1]
+                        weight = split_line[2]
                         all_weights.append(weight)
 
                 numeric_all_weights = [float(i) for i in all_weights]
