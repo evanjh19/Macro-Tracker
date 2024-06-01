@@ -19,11 +19,11 @@ def check_quit(input_str):
 def print_welcome_message():
     # Function to print the welcome message in a formatted box
     print("\n")
-    message_length = len("Welcome to Macro Tracker!")
+    message_length = len("Macro Tracker")
     box_width = message_length + 6
     print("+" + "-" * box_width + "+")
     print("|" + " " * box_width + "|")
-    print("|  " + " Welcome to Macro Tracker! " + "  |")
+    print("|  " + " Macro Tracker " + "  |")
     print("|" + " " * box_width + "|")
     print("+" + "-" * box_width + "+")
     print("\n")
