@@ -325,13 +325,13 @@ while running != 'yes':
                     entered = f"{entry} {custom_carb} {custom_protein} {custom_fat} {custom_calorie}\n"
                     custom_entry = [int(custom_carb), int(custom_protein), int(custom_fat), int(custom_calorie)]
                     entry_totals = [x + y for x, y in zip(custom_entry, entry_totals)]
+                    
+                    # Append the entered item to the day tracker file
+                    with open(day_tracker, "a") as day_append:
+                        day_append.write(entered)
 
             # Ask if the user wants to enter another item
             option = get_user_input("Would you like to enter another item? (yes or no) ", ['yes', 'no'])
-
-            # Append the entered item to the day tracker file
-            with open(day_tracker, "a") as day_append:
-                day_append.write(entered)
 
         # Print the total macros entered for the day
         print('Total macros entered:')
