@@ -300,6 +300,10 @@ while running != 'yes':
                     times = int(get_user_input("How many of this item would you like to enter? ", input_type=int))
                     entered = f"{entry} {macro_dict[entry][0] * times} {macro_dict[entry][1] * times} {macro_dict[entry][2] * times} {macro_dict[entry][3] * times}\n"
                     entry_totals = [x + y for x, y in zip(macro_dict[entry], entry_totals)]
+                    
+                    # Append the entered item to the day tracker file
+                    with open(day_tracker, "a") as day_append:
+                        day_append.write(entered)
                 else:
                     # If the item is not in the macro dictionary, enter its macros manually
                     print('You will need to enter details for this item manually...')
