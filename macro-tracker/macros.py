@@ -59,6 +59,10 @@ def get_user_input(prompt, valid_inputs=None, case_sensitive=False, input_type=s
         else:
             return user_input
 
+def sanitize_input(input_str):
+    # Function to remove any unwanted characters from the input, including tabs, spaces, and returns
+    return ''.join(e for e in input_str if e.isalnum())
+
 # Print welcome message and load macro dictionary
 print_welcome_message()
 macro_dict = load_macro_dict()
@@ -295,12 +299,12 @@ while running != 'yes':
                 for i in macro_dict:
                     print(i)
             else:
+                entry = sanitize_input(entry)  # Sanitize the entry to remove any unwanted characters
                 if entry in macro_dict:
                     # If the item is in the macro dictionary, record its macros
                     times = int(get_user_input("How many of this item would you like to enter? ", input_type=int))
                     entered = f"{entry} {macro_dict[entry][0] * times} {macro_dict[entry][1] * times} {macro_dict[entry][2] * times} {macro_dict[entry][3] * times}\n"
                     entry_totals = [x + y for x, y in zip(macro_dict[entry], entry_totals)]
-                    
                     # Append the entered item to the day tracker file
                     with open(day_tracker, "a") as day_append:
                         day_append.write(entered)
@@ -316,7 +320,7 @@ while running != 'yes':
 
                     if save == 'yes':
                         # Save the custom item to the macro records
-                        data = f"\n{entry}\t{custom_carb} {custom_protein} {custom_fat} {custom_calorie}"
+                        data = f"{sanitize_input(entry)}\t{custom_carb} {custom_protein} {custom_fat} {custom_calorie}\n"
                         with open(macro_records, 'a') as file:
                             file.write(data)
 
@@ -326,7 +330,7 @@ while running != 'yes':
                     custom_fat = str(int(custom_fat) * times)
                     custom_calorie = str(int(custom_calorie) * times)
 
-                    entered = f"{entry} {custom_carb} {custom_protein} {custom_fat} {custom_calorie}\n"
+                    entered = f"{sanitize_input(entry)} {custom_carb} {custom_protein} {custom_fat} {custom_calorie}\n"
                     custom_entry = [int(custom_carb), int(custom_protein), int(custom_fat), int(custom_calorie)]
                     entry_totals = [x + y for x, y in zip(custom_entry, entry_totals)]
                     
