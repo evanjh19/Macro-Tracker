@@ -237,7 +237,7 @@ while running != 'yes':
         print('---------------------------------\n')
 
         # Check if it's a new month and update month counter and files if needed
-        month = get_user_input("Is this a new month? (yes or no) ", ['yes', 'no'])
+        month = get_user_input("Use the skip shortcut if you are continuing macro tracking for the same day.\nIs this a new month? (yes, no, or skip) ", ['yes', 'no', 'skip'])
 
         if month == 'yes':
             if os.path.getsize(month_counter) == 0:
@@ -265,27 +265,28 @@ while running != 'yes':
             with open(month_counter, 'w') as mc:
                 mc.write(str(month_count))
 
-        # Check if it's a new week and update week tracker file if needed
-        week = get_user_input("Is this a new week? (yes or no) ", ['yes', 'no'])
+        if month in ['yes', 'no']:
+            # Check if it's a new week and update week tracker file if needed
+            week = get_user_input("Is this a new week? (yes or no) ", ['yes', 'no'])
 
-        if week == 'yes':
-            with open(week_tracker) as week:
-                with open(month_tracker, 'a') as month:
-                    for line in week:
-                        month.write(line)
-            with open(week_tracker, 'r+') as week_empty:
-                week_empty.truncate(0)  # Clear week tracker file
-
-        # Check if it's a new day and update day tracker file if needed
-        day = get_user_input("Is this a new day? (yes or no) ", ['yes', 'no'])
-
-        if day == 'yes':
-            with open(day_tracker) as day:
-                with open(week_tracker, 'a') as week:
-                    for line in day:
-                        week.write(line)
-            with open(day_tracker, 'r+') as day_empty:
-                day_empty.truncate(0)  # Clear day tracker file
+            if week == 'yes':
+                with open(week_tracker) as week:
+                    with open(month_tracker, 'a') as month:
+                        for line in week:
+                            month.write(line)
+                with open(week_tracker, 'r+') as week_empty:
+                    week_empty.truncate(0)  # Clear week tracker file
+                    
+        if month in ['yes', 'no']:
+        	# Check if it's a new day and update day tracker file if needed
+        	day = get_user_input("Is this a new day? (yes or no) ", ['yes', 'no'])
+        	if day == 'yes':
+        		with open(day_tracker) as day:
+        			with open(week_tracker, 'a') as week:
+        				for line in day:
+        					week.write(line)
+        		with open(day_tracker, 'r+') as day_empty:
+        			day_empty.truncate(0)  # Clear day tracker file
 
         entry_totals = [0, 0, 0, 0]  # Initialize total macros for the day
         option = 'yes'
