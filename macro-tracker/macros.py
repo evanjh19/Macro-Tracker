@@ -131,37 +131,40 @@ while running != 'yes':
             # Display yearly macros
             year_totals = [0, 0, 0, 0]
             with open(year_tracker, 'r') as yt_read:
-                for line in yt_read:
-                    line = line.split()
-                    del line[0]
-                    line = [int(i) for i in line]
-                    year_totals = [x + y for x, y in zip(line, year_totals)]
-                print('Carbs', 'Protein', 'Fats', 'Calories')
-                print(f"{year_totals[0]}\t{year_totals[1]}\t{year_totals[2]}\t{year_totals[3]}")
+            	for line in yt_read:
+                	if line != '\n':
+                		line = line.split()
+                		del line[0]
+                		line = [int(i) for i in line]
+                		year_totals = [x + y for x, y in zip(line, year_totals)]
+            print('Carbs', 'Protein', 'Fats', 'Calories')
+            print(f"{year_totals[0]}\t{year_totals[1]}\t{year_totals[2]}\t{year_totals[3]}")
 
         if show in ['m', 'monthly_macros']:
             # Display monthly macros
             month_totals = [0, 0, 0, 0]
             with open(month_tracker, 'r') as mt_read:
-                for line in mt_read:
-                    line = line.split()
-                    del line[0]
-                    line = [int(i) for i in line]
-                    month_totals = [x + y for x, y in zip(line, month_totals)]
-                print('Carbs', 'Protein', 'Fats', 'Calories')
-                print(f"{month_totals[0]}\t{month_totals[1]}\t{month_totals[2]}\t{month_totals[3]}")
+            	for line in mt_read:
+            		if line != '\n':
+                		line = line.split()
+                		del line[0]
+                		line = [int(i) for i in line]
+                		month_totals = [x + y for x, y in zip(line, month_totals)]
+            print('Carbs', 'Protein', 'Fats', 'Calories')
+            print(f"{month_totals[0]}\t{month_totals[1]}\t{month_totals[2]}\t{month_totals[3]}")
 
         if show in ['w', 'weekly_macros']:
             # Display weekly macros
             week_totals = [0, 0, 0, 0]
             with open(week_tracker, 'r') as wt_read:
-                for line in wt_read:
-                    line = line.split()
-                    del line[0]
-                    line = [int(i) for i in line]
-                    week_totals = [x + y for x, y in zip(line, week_totals)]
-                print('Carbs', 'Protein', 'Fats', 'Calories')
-                print(f"{week_totals[0]}\t{week_totals[1]}\t{week_totals[2]}\t{week_totals[3]}")
+            	for line in wt_read:
+            		if line != '\n':
+            			line = line.split()
+            			del line[0]
+            			line = [int(i) for i in line]
+            			week_totals = [x + y for x, y in zip(line, week_totals)]
+            print('Carbs', 'Protein', 'Fats', 'Calories')
+            print(f"{week_totals[0]}\t{week_totals[1]}\t{week_totals[2]}\t{week_totals[3]}")
 
         if show in ['d', 'daily_macros']:
             # Display daily macros
