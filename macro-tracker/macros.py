@@ -131,12 +131,12 @@ while running != 'yes':
             # Display yearly macros
             year_totals = [0, 0, 0, 0]
             with open(year_tracker, 'r') as yt_read:
-            	for line in yt_read:
-                	if line != '\n':
-                		line = line.split()
-                		del line[0]
-                		line = [int(i) for i in line]
-                		year_totals = [x + y for x, y in zip(line, year_totals)]
+                for line in yt_read:
+                    if line != '\n':
+                        line = line.split()
+                        del line[0]
+                        line = [int(i) for i in line]
+                        year_totals = [x + y for x, y in zip(line, year_totals)]
             print('Carbs', 'Protein', 'Fats', 'Calories')
             print(f"{year_totals[0]}\t{year_totals[1]}\t{year_totals[2]}\t{year_totals[3]}")
 
@@ -144,12 +144,12 @@ while running != 'yes':
             # Display monthly macros
             month_totals = [0, 0, 0, 0]
             with open(month_tracker, 'r') as mt_read:
-            	for line in mt_read:
-            		if line != '\n':
-                		line = line.split()
-                		del line[0]
-                		line = [int(i) for i in line]
-                		month_totals = [x + y for x, y in zip(line, month_totals)]
+                for line in mt_read:
+                    if line != '\n':
+                        line = line.split()
+                        del line[0]
+                        line = [int(i) for i in line]
+                        month_totals = [x + y for x, y in zip(line, month_totals)]
             print('Carbs', 'Protein', 'Fats', 'Calories')
             print(f"{month_totals[0]}\t{month_totals[1]}\t{month_totals[2]}\t{month_totals[3]}")
 
@@ -157,12 +157,12 @@ while running != 'yes':
             # Display weekly macros
             week_totals = [0, 0, 0, 0]
             with open(week_tracker, 'r') as wt_read:
-            	for line in wt_read:
-            		if line != '\n':
-            			line = line.split()
-            			del line[0]
-            			line = [int(i) for i in line]
-            			week_totals = [x + y for x, y in zip(line, week_totals)]
+                for line in wt_read:
+                    if line != '\n':
+                        line = line.split()
+                        del line[0]
+                        line = [int(i) for i in line]
+                        week_totals = [x + y for x, y in zip(line, week_totals)]
             print('Carbs', 'Protein', 'Fats', 'Calories')
             print(f"{week_totals[0]}\t{week_totals[1]}\t{week_totals[2]}\t{week_totals[3]}")
 
@@ -254,12 +254,31 @@ while running != 'yes':
             if month_count >= 12:
                 # If a year has passed, archive month data to year file
                 month_count = 0
+                
+                with open(day_tracker) as day:
+                    with open(week_tracker, 'a') as week:
+                        for line in day:
+                            week.write(line)
+                            
+                with open(day_tracker, 'r+') as day_empty:
+                    day_empty.truncate(0)  # Clear day tracker file
+                    
+                with open(week_tracker) as week:
+                    with open(month_tracker, 'a') as month:
+                        for line in week:
+                            month.write(line)
+                            
+                with open(week_tracker, 'r+') as week_empty:
+                    week_empty.truncate(0)  # Clear week tracker file                
+                
                 with open(month_tracker) as month:
                     with open(year_tracker, 'a') as year:
                         for line in month:
                             year.write(line)
+                            
                 with open(month_tracker, 'r+') as month_empty:
                     month_empty.truncate(0)  # Clear month tracker file
+                    
             else:
                 with open(month_tracker, 'a') as month:
                     month.write('\n')
@@ -268,28 +287,39 @@ while running != 'yes':
             with open(month_counter, 'w') as mc:
                 mc.write(str(month_count))
 
-        if month in ['yes', 'no']:
+        if month == 'no':
             # Check if it's a new week and update week tracker file if needed
             week = get_user_input("Is this a new week? (yes or no) ", ['yes', 'no'])
 
             if week == 'yes':
+                with open(day_tracker) as day:
+                    with open(week_tracker, 'a') as week:
+                        for line in day:
+                            week.write(line)
+                            
+                with open(day_tracker, 'r+') as day_empty:
+                    day_empty.truncate(0)  # Clear day tracker file
+                    
                 with open(week_tracker) as week:
                     with open(month_tracker, 'a') as month:
                         for line in week:
                             month.write(line)
+                            
                 with open(week_tracker, 'r+') as week_empty:
                     week_empty.truncate(0)  # Clear week tracker file
                     
-        if month in ['yes', 'no']:
-        	# Check if it's a new day and update day tracker file if needed
-        	day = get_user_input("Is this a new day? (yes or no) ", ['yes', 'no'])
-        	if day == 'yes':
-        		with open(day_tracker) as day:
-        			with open(week_tracker, 'a') as week:
-        				for line in day:
-        					week.write(line)
-        		with open(day_tracker, 'r+') as day_empty:
-        			day_empty.truncate(0)  # Clear day tracker file
+        if week == 'no':
+            # Check if it's a new day and update day tracker file if needed
+            day = get_user_input("Is this a new day? (yes or no) ", ['yes', 'no'])
+            
+            if day == 'yes':
+                with open(day_tracker) as day:
+                    with open(week_tracker, 'a') as week:
+                        for line in day:
+                            week.write(line)
+                            
+                with open(day_tracker, 'r+') as day_empty:
+                    day_empty.truncate(0)  # Clear day tracker file
 
         entry_totals = [0, 0, 0, 0]  # Initialize total macros for the day
         option = 'yes'
