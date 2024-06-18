@@ -76,7 +76,7 @@ while running != 'yes':
         # Set macro goals
         print('\nSet your macro goals!')
         print('---------------------------------\n')
-        print("If you need help determining your macro goals, try visiting https://www.iifym.com/macro-calculator/ and filling out the questionnaire for an estimate of macros that fit your goals.\n")
+        print("If you need help determining your macro goals, try visiting https://www.calculator.net/macro-calculator.html and filling out the questionnaire for an estimate of macros that fit your goals.\n")
 
         carb_goal = get_user_input("What is your daily carb goal? ", input_type=int)
         protein_goal = get_user_input("What is your daily protein goal? ", input_type=int)
@@ -102,6 +102,9 @@ while running != 'yes':
             with open(goal_tracker, 'r') as gtd_read:
                 for line in gtd_read:
                     line = line.split()
+            if os.path.getsize(goal_tracker) == 0:
+                print('You have no macro goals recorded.')
+            else:
                 print('Carbs', 'Protein', 'Fats', 'Calories')
                 print(f"{line[0]}\t{line[1]}\t{line[2]}\t{line[3]}")
 
@@ -308,18 +311,18 @@ while running != 'yes':
                 with open(week_tracker, 'r+') as week_empty:
                     week_empty.truncate(0)  # Clear week tracker file
                     
-        if week == 'no':
-            # Check if it's a new day and update day tracker file if needed
-            day = get_user_input("Is this a new day? (yes or no) ", ['yes', 'no'])
+            if week == 'no':
+                # Check if it's a new day and update day tracker file if needed
+                day = get_user_input("Is this a new day? (yes or no) ", ['yes', 'no'])
             
-            if day == 'yes':
-                with open(day_tracker) as day:
-                    with open(week_tracker, 'a') as week:
-                        for line in day:
-                            week.write(line)
+                if day == 'yes':
+                    with open(day_tracker) as day:
+                        with open(week_tracker, 'a') as week:
+                            for line in day:
+                                week.write(line)
                             
-                with open(day_tracker, 'r+') as day_empty:
-                    day_empty.truncate(0)  # Clear day tracker file
+                    with open(day_tracker, 'r+') as day_empty:
+                        day_empty.truncate(0)  # Clear day tracker file
 
         entry_totals = [0, 0, 0, 0]  # Initialize total macros for the day
         option = 'yes'
@@ -346,6 +349,7 @@ while running != 'yes':
                 else:
                     # If the item is not in the macro dictionary, enter its macros manually
                     print('You will need to enter details for this item manually...')
+                    print('To find the macros of an item, try searching at https://www.nutritionix.com.')
                     custom_carb = get_user_input("What is the total carb content? ", input_type=int)
                     custom_protein = get_user_input("What is the total protein content? ", input_type=int)
                     custom_fat = get_user_input("What is the total fat content? ", input_type=int)
